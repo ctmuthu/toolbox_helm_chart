@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "toolbox.fullname" . }}
+  labels:
+    {{- include "toolbox.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "toolbox.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "toolbox.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: {{ template "toolbox.image" .}}
+          command: {{ .Values.image.command }}
+          args: {{ .Values.image.args }}
